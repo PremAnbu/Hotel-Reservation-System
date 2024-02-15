@@ -23,17 +23,26 @@ namespace HotelReservationSystem
                 int totalRate = CalTotalRate(hotel.Value, CheckInDate, CheckOutDate);
                 findHotel.Add(hotel.Key, totalRate);    
                     }
-            int min = int.MaxValue;
+            //int min = int.MaxValue;
             string hotelName = "";
-            foreach (var h in findHotel) 
+            int max = 0;
+            /*foreach (var h in findHotel) 
             {
                 if (min >= h.Value)
                 {
                     min = h.Value;
                     hotelName = h.Key;
                 }
+            }*/
+            foreach(var rating in allHotelDetails)
+            {
+                if (max < rating.Value.HotelRating)
+                {
+                    max = rating.Value.HotelRating;
+                    hotelName = rating.Key;
+                }
             }
-                Console.WriteLine("THe Cheapest Hotal is {0},Rating : {1} his totsl amount is {2}", hotelName, allHotelDetails[hotelName].HotelRating,min);
+                Console.WriteLine("THe Cheapest Hotal is {0},Rating : {1} his totsl amount is {2}", hotelName, max, findHotel[hotelName]);
 
         }
 
