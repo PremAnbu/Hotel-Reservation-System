@@ -25,17 +25,28 @@ namespace HotelReservationSystem
                     }
             int min = int.MaxValue;
             string hotelName = "";
+            List<string> listOfHotel = new List<string>();
             foreach (var h in findHotel) 
             {
+                if(min == h.Value)
+                {
+                    listOfHotel.Add(h.Key);
+                    continue;
+                }
                 if (min >= h.Value)
                 {
                     min = h.Value;
                     hotelName = h.Key;
                 }
             }
-            Console.WriteLine("THe Cheapest Hotal is {0} his totsl amount is {1}",hotelName,min);
+            if(listOfHotel.Count == 0) 
+                Console.WriteLine("THe Cheapest Hotal is {0} his totsl amount is {1}",hotelName,min);
+            else
+                Console.WriteLine("THe Cheapest Hotal is {0} and {1} his totsl amount is {2}", listOfHotel[0], listOfHotel[1], min);
 
         }
+
+        //hear we calculate each hotel total Room Rate
         public int CalTotalRate(HotelPocoClass hotelvalue,string checkInDate,string checkoutDate)
         {
             string format = "ddMMMyyyy";
