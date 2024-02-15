@@ -11,8 +11,8 @@ namespace HotelReservationSystem
         public static void Main()
         {
             Console.WriteLine("Welcome to Hotel Reservation ---!");
-            UserChoice userChoice = new UserChoice();
-           // userChoice.Choice();
+            HotelDetails details = new HotelDetails();
+            details.HotelDetail();
         }
     }
 }

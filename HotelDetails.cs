@@ -8,9 +8,10 @@ namespace HotelReservationSystem
 {
     public class HotelDetails
     {
+        Dictionary<string, HotelPocoClass> hoteldetail = new Dictionary<string, HotelPocoClass>();
+
         public void HotelDetail()
         {
-            Dictionary<string, HotelPocoClass> hoteldetail = new Dictionary<string, HotelPocoClass>();
 
             hoteldetail.Add("Lakewood", new HotelPocoClass
             {
@@ -32,6 +33,9 @@ namespace HotelReservationSystem
                 WeekdayRegular = 2200, WeekdayRewards= 1000,
                 WeekendRegular= 1500, WeekendRewards= 400
             });
+
+            FIndCheapestHotel fIndCheapestHotel = new FIndCheapestHotel();
+            fIndCheapestHotel.FindCheapestHotelName(hoteldetail);
         }
     }
 }
