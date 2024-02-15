@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HotelReservationSystem
@@ -11,29 +12,50 @@ namespace HotelReservationSystem
     {
         public void FindCheapestHotelName(Dictionary<string,HotelPocoClass> allHotelDetails)
         {
+            string cust = @"^[A-Z]{1}[a-z]{3,}$";
+            string date = @"^[0-9]{2}[A-Z]{1}[a-z]{2}[0-9]{4}$";
             Console.WriteLine("Enter Customer Type eg : Regular / Rewards");
             string customerType=Console.ReadLine();
+            try {
+                if (!Regex.IsMatch(customerType, cust))
+                {
+                    throw new InvalidCustomerTypeException("Invalid Customer Type Exception ...");
+                }
+            }
+            catch (InvalidCustomerTypeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(1);
+            }
             Console.WriteLine("Enter Check in date -> this format : 30Sep2024");
             string CheckInDate = Console.ReadLine();
+            try
+            {
+                if (!Regex.IsMatch(CheckInDate, date))
+                    throw new InvalidDateFormatException("Invalid Date Formate Exception ...");
+            }
+            catch (InvalidDateFormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(1);
+            }
             Console.WriteLine("Enter check out date -> this format : 02Oct2024");
             string CheckOutDate = Console.ReadLine();
+            try
+            {
+                if (!Regex.IsMatch(CheckOutDate, date))
+                    throw new InvalidDateFormatException("Invalid Date Formate Exception ...");
+            }
+            catch (InvalidDateFormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(1);
+            }
 
             Dictionary<string,int> findHotel = new Dictionary<string,int>();
             foreach (var hotel in allHotelDetails) {
-                try
-                {
                     int totalRate = CalTotalRate(hotel.Value, CheckInDate, CheckOutDate,customerType);
                     findHotel.Add(hotel.Key, totalRate);
-                }
-                catch(InvalidDateFormatException ex)
-                { Console.WriteLine(ex.Message); 
-                    Environment.Exit(1);
-                }
-                catch (InvalidCustomerTypeException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Environment.Exit(1);
-                }
             }
             int min = int.MaxValue;
             string hotelName = "";
@@ -62,9 +84,7 @@ namespace HotelReservationSystem
         public int CalTotalRate(HotelPocoClass hotelvalue,string checkInDate,string checkoutDate ,string customerType )
         {
             string format = "ddMMMyyyy";
-       
-            try
-            {
+ 
                 DateTime inDate = DateTime.ParseExact(checkInDate, format, CultureInfo.InvariantCulture);
                 DateTime outDate = DateTime.ParseExact(checkoutDate, format, CultureInfo.InvariantCulture);
             
@@ -84,11 +104,6 @@ namespace HotelReservationSystem
                         customerType.Equals("Rewards") ? (weekDays * hotelvalue.WeekdayRewards) + (weekEndDays * hotelvalue.WeekendRewards) :
                         throw new InvalidCustomerTypeException("Invalid Customer Type Exception ....");
             return rate;
-            }
-            catch (FormatException)
-            {
-                throw new InvalidDateFormatException("Invalid Date Exception ....");
-            }
         }
     }
 }
