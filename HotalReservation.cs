@@ -10,9 +10,18 @@ namespace HotelReservationSystem
     {
         public static void Main()
         {
-            Console.WriteLine("Welcome to Hotel Reservation ---!");
-            HotelDetails details = new HotelDetails();
-            details.HotelDetail();
+            while (true)
+            {
+
+                Console.WriteLine("===================== Welcome to Hotel Reservation ===========================\n");
+                HotelDetails details = new HotelDetails();
+                details.HotelDetail();
+                Console.WriteLine("Enter If you want to continue {Y/N}");
+                if(!Console.ReadLine().ToLower().Equals("y"))
+                {
+                    break;
+                }
+            }
         }
     }
 }
